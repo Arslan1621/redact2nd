@@ -143,6 +143,8 @@ const PDFRedactionTool = () => {
 
   // Redraw all redactions on current page
   const redrawRedactions = () => {
+    if (!overlayCanvasRef.current) return;
+    
     const overlayCanvas = overlayCanvasRef.current;
     const ctx = overlayCanvas.getContext('2d');
     ctx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
