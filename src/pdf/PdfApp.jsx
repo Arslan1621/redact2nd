@@ -55,7 +55,7 @@ const PDFRedactionTool = () => {
     setTimeout(() => setStatusMessage(null), 3000);
   };
 
-  // Handle file upload
+  // Handle file upload - EXACT COPY from original
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (!file || file.type !== 'application/pdf') {
@@ -88,20 +88,19 @@ const PDFRedactionTool = () => {
     }
   };
 
-  // Simulate NLP detection of sensitive information
+  // Simulate NLP detection of sensitive information - EXACT COPY from original
   const detectSensitiveInfo = async (arrayBuffer) => {
     setIsProcessing(true);
-    showStatus('AI is analyzing document for sensitive content...', 'info');
     
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 2000));
     
     // Mock sensitive data detection
     const mockSuggestions = [
-      { id: 1, page: 1, x: 100, y: 200, width: 120, height: 20, type: 'Email', text: 'john@example.com', confidence: 0.95 },
-      { id: 2, page: 1, x: 150, y: 300, width: 100, height: 20, type: 'Phone', text: '(555) 123-4567', confidence: 0.88 },
-      { id: 3, page: 1, x: 200, y: 400, width: 80, height: 20, type: 'Name', text: 'John Smith', confidence: 0.92 },
-      { id: 4, page: 2, x: 120, y: 250, width: 110, height: 20, type: 'SSN', text: '123-45-6789', confidence: 0.98 },
+      { id: 1, page: 1, x: 100, y: 200, width: 120, height: 20, type: 'email', text: 'john@example.com', confidence: 0.95 },
+      { id: 2, page: 1, x: 150, y: 300, width: 100, height: 20, type: 'phone', text: '(555) 123-4567', confidence: 0.88 },
+      { id: 3, page: 1, x: 200, y: 400, width: 80, height: 20, type: 'name', text: 'John Smith', confidence: 0.92 },
+      { id: 4, page: 2, x: 120, y: 250, width: 110, height: 20, type: 'ssn', text: '123-45-6789', confidence: 0.98 },
     ];
     
     setSuggestions(mockSuggestions);
@@ -113,7 +112,7 @@ const PDFRedactionTool = () => {
     }
   };
 
-  // Render PDF page
+  // Render PDF page - EXACT COPY from original
   const renderPage = async (pageNum) => {
     if (!pdfDoc) return;
     
@@ -141,10 +140,8 @@ const PDFRedactionTool = () => {
     redrawRedactions();
   };
 
-  // Redraw all redactions on current page
+  // Redraw all redactions on current page - EXACT COPY from original
   const redrawRedactions = () => {
-    if (!overlayCanvasRef.current) return;
-    
     const overlayCanvas = overlayCanvasRef.current;
     const ctx = overlayCanvas.getContext('2d');
     ctx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
@@ -162,16 +159,16 @@ const PDFRedactionTool = () => {
       suggestions
         .filter(s => s.page === currentPage)
         .forEach(suggestion => {
-          ctx.fillStyle = 'rgba(168, 85, 247, 0.3)';
+          ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
           ctx.fillRect(suggestion.x, suggestion.y, suggestion.width, suggestion.height);
-          ctx.strokeStyle = '#a855f7';
+          ctx.strokeStyle = '#ff0000';
           ctx.lineWidth = 2;
           ctx.strokeRect(suggestion.x, suggestion.y, suggestion.width, suggestion.height);
         });
     }
   };
 
-  // Handle mouse events for manual redaction
+  // Handle mouse events for manual redaction - EXACT COPY from original
   const handleMouseDown = (e) => {
     if (!redactionMode || !overlayCanvasRef.current) return;
     
@@ -221,7 +218,7 @@ const PDFRedactionTool = () => {
         y: Math.min(startPoint.current.y, y),
         width,
         height,
-        type: 'Manual'
+        type: 'manual'
       };
       
       setRedactions(prev => [...prev, newRedaction]);
@@ -231,7 +228,7 @@ const PDFRedactionTool = () => {
     setIsDrawing(false);
   };
 
-  // Accept suggestion
+  // Accept suggestion - EXACT COPY from original
   const acceptSuggestion = (suggestion) => {
     const newRedaction = {
       id: Date.now(),
@@ -248,23 +245,23 @@ const PDFRedactionTool = () => {
     showStatus(`${suggestion.type} redacted successfully`, 'success');
   };
 
-  // Reject suggestion
+  // Reject suggestion - EXACT COPY from original
   const rejectSuggestion = (suggestionId) => {
     setSuggestions(prev => prev.filter(s => s.id !== suggestionId));
   };
 
-  // Navigate pages
+  // Navigate pages - EXACT COPY from original
   const goToPage = (pageNum) => {
     if (pageNum >= 1 && pageNum <= totalPages) {
       setCurrentPage(pageNum);
     }
   };
 
-  // Zoom controls
+  // Zoom controls - EXACT COPY from original
   const zoomIn = () => setScale(prev => Math.min(prev + 0.2, 3));
   const zoomOut = () => setScale(prev => Math.max(prev - 0.2, 0.5));
 
-  // Export redacted PDF (simulated)
+  // Export redacted PDF - EXACT COPY from original
   const exportRedactedPDF = async () => {
     setIsProcessing(true);
     showStatus('Processing redacted PDF...', 'info');
@@ -287,14 +284,14 @@ const PDFRedactionTool = () => {
     showStatus('Redacted PDF exported successfully!', 'success');
   };
 
-  // Re-render page when scale or page changes
+  // Re-render page when scale or page changes - EXACT COPY from original
   useEffect(() => {
     if (pdfDoc) {
       renderPage(currentPage);
     }
   }, [pdfDoc, currentPage, scale]);
 
-  // Redraw redactions when they change
+  // Redraw redactions when they change - EXACT COPY from original
   useEffect(() => {
     if (overlayCanvasRef.current) {
       redrawRedactions();
@@ -384,93 +381,77 @@ const PDFRedactionTool = () => {
           </motion.div>
         )}
 
-        {/* Main Content */}
+        {/* Main Content - Using ORIGINAL layout structure */}
         {pdfFile && (
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Sidebar */}
-            <div className="lg:col-span-1 space-y-8">
+          <div className="flex-1 flex bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            {/* Sidebar - Using your design but original structure */}
+            <div className="w-80 bg-white shadow-sm border-r flex flex-col">
               {/* Controls */}
-              <motion.div
-                className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                <div className="flex items-center space-x-2 mb-6">
-                  <BarChart3 className="w-6 h-6 text-purple-600" />
-                  <h3 className="text-lg font-bold text-gray-900">Controls</h3>
-                </div>
-                
+              <div className="p-6 border-b bg-gray-900">
                 <div className="space-y-4">
                   {/* Page Navigation */}
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 mb-2 block">Page Navigation</label>
-                    <div className="flex items-center justify-between">
-                      <button
-                        onClick={() => goToPage(currentPage - 1)}
-                        disabled={currentPage <= 1}
-                        className="p-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                      >
-                        <ChevronLeft className="w-5 h-5" />
-                      </button>
-                      <span className="text-sm text-gray-900 font-medium px-4">
-                        {currentPage} of {totalPages}
-                      </span>
-                      <button
-                        onClick={() => goToPage(currentPage + 1)}
-                        disabled={currentPage >= totalPages}
-                        className="p-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                      >
-                        <ChevronRight className="w-5 h-5" />
-                      </button>
-                    </div>
+                  <div className="flex items-center justify-between">
+                    <button
+                      onClick={() => goToPage(currentPage - 1)}
+                      disabled={currentPage <= 1}
+                      className="p-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <span className="text-sm text-white font-medium px-4">
+                      Page {currentPage} of {totalPages}
+                    </span>
+                    <button
+                      onClick={() => goToPage(currentPage + 1)}
+                      disabled={currentPage >= totalPages}
+                      className="p-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
                   </div>
 
                   {/* Zoom Controls */}
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 mb-2 block">Zoom Level</label>
-                    <div className="flex items-center justify-between">
-                      <button
-                        onClick={zoomOut}
-                        className="p-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-                      >
-                        <ZoomOut className="w-5 h-5" />
-                      </button>
-                      <span className="text-sm text-gray-900 font-medium px-4">
-                        {Math.round(scale * 100)}%
-                      </span>
-                      <button
-                        onClick={zoomIn}
-                        className="p-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-                      >
-                        <ZoomIn className="w-5 h-5" />
-                      </button>
-                    </div>
+                  <div className="flex items-center justify-center space-x-2">
+                    <button
+                      onClick={zoomOut}
+                      className="p-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                    >
+                      <ZoomOut className="w-4 h-4" />
+                    </button>
+                    <span className="text-sm text-white w-16 text-center font-medium">
+                      {Math.round(scale * 100)}%
+                    </span>
+                    <button
+                      onClick={zoomIn}
+                      className="p-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                    >
+                      <ZoomIn className="w-4 h-4" />
+                    </button>
                   </div>
 
                   {/* Redaction Mode Toggle */}
                   <button
                     onClick={() => setRedactionMode(!redactionMode)}
-                    className={`w-full flex items-center justify-center px-4 py-3 rounded-lg font-medium transition-all ${
+                    className={`w-full flex items-center justify-center px-4 py-2 rounded-md font-medium ${
                       redactionMode
                         ? 'bg-red-600 text-white hover:bg-red-700'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        : 'bg-gray-700 text-white hover:bg-gray-600'
                     }`}
                   >
-                    <Square className="w-5 h-5 mr-2" />
+                    <Square className="h-4 w-4 mr-2" />
                     {redactionMode ? 'Exit Redaction Mode' : 'Manual Redaction Mode'}
                   </button>
 
                   {/* Auto-detect Toggle */}
                   <button
                     onClick={() => setShowSuggestions(!showSuggestions)}
-                    className={`w-full flex items-center justify-center px-4 py-3 rounded-lg font-medium transition-all ${
+                    className={`w-full flex items-center justify-center px-4 py-2 rounded-md font-medium ${
                       showSuggestions
-                        ? 'bg-orange-600 text-white hover:bg-orange-700'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-yellow-600 text-white hover:bg-yellow-700'
+                        : 'bg-gray-700 text-white hover:bg-gray-600'
                     }`}
                   >
-                    {showSuggestions ? <EyeOff className="w-5 h-5 mr-2" /> : <Eye className="w-5 h-5 mr-2" />}
+                    {showSuggestions ? <EyeOff className="h-4 w-4 mr-2" /> : <Eye className="h-4 w-4 mr-2" />}
                     {showSuggestions ? 'Hide AI Suggestions' : 'Show AI Suggestions'}
                   </button>
 
@@ -478,148 +459,122 @@ const PDFRedactionTool = () => {
                   <button
                     onClick={exportRedactedPDF}
                     disabled={redactions.length === 0 || isProcessing}
-                    className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                   >
-                    <Download className="w-5 h-5 mr-2" />
+                    <Download className="h-4 w-4 mr-2" />
                     {isProcessing ? 'Processing...' : 'Export Redacted PDF'}
                   </button>
                 </div>
-              </motion.div>
+              </div>
 
-              {/* AI Suggestions Panel */}
-              <motion.div
-                className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-              >
-                <div className="flex items-center space-x-2 mb-6">
-                  <Bot className="w-6 h-6 text-orange-600" />
-                  <h3 className="text-lg font-bold text-gray-900">
-                    AI Suggestions ({suggestions.length})
-                  </h3>
-                </div>
+              {/* Suggestions Panel */}
+              <div className="flex-1 overflow-y-auto p-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  AI Suggestions ({suggestions.length})
+                </h3>
                 
-                <div className="max-h-64 overflow-y-auto space-y-4">
-                  {suggestions.length === 0 && (
-                    <p className="text-gray-500 text-sm">No suggestions found or all reviewed.</p>
-                  )}
-                  
-                  {suggestions.map(suggestion => (
-                    <div key={suggestion.id} className="bg-gray-50 rounded-xl p-4 border border-gray-200">
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          <span className="text-xs font-semibold text-purple-600 uppercase tracking-wide bg-purple-100 px-2 py-1 rounded">
-                            {suggestion.type}
-                          </span>
-                          <p className="text-xs text-gray-500 mt-1">Page {suggestion.page}</p>
-                        </div>
-                        <div className="text-xs text-gray-500 font-medium">
-                          {Math.round(suggestion.confidence * 100)}%
-                        </div>
-                      </div>
-                      
-                      <p className="text-sm font-medium text-gray-900 mb-3 bg-white p-2 rounded border">
-                        "{suggestion.text}"
-                      </p>
-                      
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => acceptSuggestion(suggestion)}
-                          className="flex-1 flex items-center justify-center px-3 py-2 bg-green-600 text-white text-xs rounded-lg hover:bg-green-700 font-medium transition-colors"
-                        >
-                          <CheckCircle className="w-3 h-3 mr-1" />
-                          Accept
-                        </button>
-                        <button
-                          onClick={() => rejectSuggestion(suggestion.id)}
-                          className="flex-1 flex items-center justify-center px-3 py-2 bg-gray-200 text-gray-700 text-xs rounded-lg hover:bg-gray-300 font-medium transition-colors"
-                        >
-                          <XCircle className="w-3 h-3 mr-1" />
-                          Reject
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-
-              {/* Redaction Summary */}
-              <motion.div
-                className="bg-green-50 rounded-2xl p-6 border border-green-200"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-              >
-                <div className="flex items-start space-x-3">
-                  <Shield className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
-                  <div>
-                    <h4 className="font-semibold text-green-900 mb-2">
-                      Applied Redactions ({redactions.length})
-                    </h4>
-                    {redactions.length === 0 ? (
-                      <p className="text-sm text-green-700">No redactions applied yet.</p>
-                    ) : (
-                      <div className="space-y-1 max-h-32 overflow-y-auto">
-                        {redactions.map(redaction => (
-                          <div key={redaction.id} className="text-xs text-green-700 bg-green-100 p-2 rounded">
-                            <span className="font-medium">Page {redaction.page}</span> - {redaction.type}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-
-            {/* PDF Viewer */}
-            <div className="lg:col-span-3">
-              <motion.div
-                className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
-              >
-                {isProcessing && (
-                  <div className="flex items-center justify-center h-96 bg-gray-50">
-                    <div className="text-center">
-                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-                      <p className="text-gray-600 font-medium">Processing PDF...</p>
-                    </div>
-                  </div>
+                {suggestions.length === 0 && (
+                  <p className="text-gray-500 text-sm">No suggestions found or all reviewed.</p>
                 )}
                 
-                {pdfDoc && (
-                  <div className="p-8">
-                    {redactionMode && (
-                      <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
-                        <div className="flex items-center">
-                          <AlertCircle className="w-5 h-5 text-red-600 mr-3" />
+                {suggestions.map(suggestion => (
+                  <div key={suggestion.id} className="bg-gray-50 rounded-lg p-3 mb-3 border">
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <span className="text-xs font-semibold text-blue-600 uppercase tracking-wide">
+                          {suggestion.type}
+                        </span>
+                        <p className="text-sm text-gray-600">Page {suggestion.page}</p>
+                      </div>
+                      <div className="text-xs text-gray-500 font-medium">
+                        {Math.round(suggestion.confidence * 100)}% confident
+                      </div>
+                    </div>
+                    
+                    <p className="text-sm font-medium text-gray-900 mb-3 bg-white p-2 rounded border">
+                      "{suggestion.text}"
+                    </p>
+                    
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => acceptSuggestion(suggestion)}
+                        className="flex-1 flex items-center justify-center px-3 py-2 bg-green-600 text-white text-xs rounded hover:bg-green-700 font-medium"
+                      >
+                        <CheckCircle className="h-3 w-3 mr-1" />
+                        Accept
+                      </button>
+                      <button
+                        onClick={() => rejectSuggestion(suggestion.id)}
+                        className="flex-1 flex items-center justify-center px-3 py-2 bg-red-600 text-white text-xs rounded hover:bg-red-700 font-medium"
+                      >
+                        <XCircle className="h-3 w-3 mr-1" />
+                        Reject
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                
+                {/* Redaction Summary */}
+                <div className="mt-6 pt-4 border-t">
+                  <h4 className="text-md font-semibold text-gray-900 mb-2">
+                    Applied Redactions ({redactions.length})
+                  </h4>
+                  {redactions.length === 0 ? (
+                    <p className="text-gray-500 text-sm">No redactions applied yet.</p>
+                  ) : (
+                    redactions.map(redaction => (
+                      <div key={redaction.id} className="text-xs text-gray-600 mb-1 bg-gray-50 p-2 rounded">
+                        <span className="font-medium">Page {redaction.page}</span> - {redaction.type}
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* PDF Viewer - Using EXACT ORIGINAL structure */}
+            <div className="flex-1 overflow-auto bg-gray-100 p-4">
+              {isProcessing && (
+                <div className="flex items-center justify-center h-64">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p className="text-gray-600 font-medium">Processing PDF...</p>
+                  </div>
+                </div>
+              )}
+              
+              {pdfDoc && (
+                <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+                  {redactionMode && (
+                    <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
+                      <div className="flex">
+                        <AlertCircle className="h-5 w-5 text-red-400" />
+                        <div className="ml-3">
                           <p className="text-sm text-red-700 font-medium">
                             Redaction mode is active. Click and drag to select areas for redaction.
                           </p>
                         </div>
                       </div>
-                    )}
-                    
-                    <div className="relative inline-block mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
-                      <canvas
-                        ref={pdfCanvasRef}
-                        className="block max-w-full"
-                      />
-                      <canvas
-                        ref={overlayCanvasRef}
-                        className="absolute top-0 left-0 block max-w-full"
-                        style={{ cursor: redactionMode ? 'crosshair' : 'default' }}
-                        onMouseDown={handleMouseDown}
-                        onMouseMove={handleMouseMove}
-                        onMouseUp={handleMouseUp}
-                      />
                     </div>
+                  )}
+                  
+                  {/* EXACT ORIGINAL canvas structure */}
+                  <div className="relative inline-block">
+                    <canvas
+                      ref={pdfCanvasRef}
+                      className="border max-w-full"
+                    />
+                    <canvas
+                      ref={overlayCanvasRef}
+                      className="absolute top-0 left-0 border max-w-full"
+                      style={{ cursor: redactionMode ? 'crosshair' : 'default' }}
+                      onMouseDown={handleMouseDown}
+                      onMouseMove={handleMouseMove}
+                      onMouseUp={handleMouseUp}
+                    />
                   </div>
-                )}
-              </motion.div>
+                </div>
+              )}
             </div>
           </div>
         )}
