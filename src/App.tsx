@@ -8,6 +8,10 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import DashboardPage from './pages/DashboardPage';
 import DocsRedactionPage from './pages/DocsRedactionPage';
+
+// ✅ Import your integrated PDF tool
+import PdfApp from './pdf/PdfApp';
+
 import './styles/globals.css';
 
 const clerkPubKey = "pk_test_YnJhdmUtc2xvdGgtMTMuY2xlcmsuYWNjb3VudHMuZGV2JA";
@@ -24,6 +28,9 @@ function App() {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/docs" element={<DocsRedactionPage />} />
+            
+            {/* ✅ New PDF route */}
+            <Route path="/pdf" element={<PdfApp />} />
           </Routes>
         </Layout>
       </Router>
